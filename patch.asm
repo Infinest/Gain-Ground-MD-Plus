@@ -8,6 +8,7 @@ CHEATS	set 0
 	MD_PLUS_RESPONSE_PORT:					equ $0003F7FC
 
 	OFFSET_RESET_VECTOR:					equ $4
+	OFFSET_Z80_INIT:						equ	$0000041A
 	OFFSET_AUDIO_COMMAND_HANLDER:			equ $00000A76
 	OFFSET_SND_TEST_MUSIC_MAX_COMPARISON:	equ $00000EE8
 	OFFSET_SND_TEST_SFX_MIN_COMPARISON:		equ $00000F24
@@ -103,6 +104,7 @@ CDDA_PLAY_LOGIC
 DETOUR_RESET_VECTOR
 	move.w	#$1300,D0								; Move MD+ stop command into d1
 	jsr		WRITE_MD_PLUS_FUNCTION
+	jsr		OFFSET_Z80_INIT							; Ensures no hanging notes upon soft reset
 	incbin	"intro.bin"								; Show MD+ intro screen
 	jmp		RESET_VECTOR_ORIGINAL					; Return to game's original entry point
 
